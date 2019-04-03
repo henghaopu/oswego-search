@@ -2,21 +2,32 @@
   <div>
     <h2>OSWEGO SEARCH</h2>
     <!-- <button @click="callFirebaseFunctions">call firebase functions</button> -->
-
-    <div class="video-container">
+    <!-- Switch -->
+    <div class="switch">
+      <label for="camera-switch" >
+        <!-- OFF -->
+        <input type="checkbox" id="camera-switch" v-model="cameraSwitch" @click="triggerToggle">
+        <span class="lever" tabindex="3" @keydown.enter="triggerToggle"></span>
+        <!-- ON -->
+        {{cameraSwitch?'CAMERA ON':'CAMERA OFF'}}
+      </label>
+    </div>
+    <!-- video-container might be used in Materialize -->
+    <div class="cam-video-container">
       <video autoplay playsinline></video>
     </div>
 
-    <div class="btn-container">
-      <button @click="openCamera">OPEN</button>
+    <div class="canvas-btn-container">
+      <canvas id="canvas-shapshot" tabindex="5"></canvas>
+      <!-- <button @click="openCamera">OPEN</button> -->
       <!-- <button @click="pauseVideo">PAUSE</button>
       <button @click="resumeVideo">RESUME</button> -->
-      <button @click="closeCamera">CLOSE</button>
-      <button @click="takeAPhoto">SNAPSHOT</button>
+      <!-- <button @click="closeCamera">CLOSE</button> -->
+      <button @click="takeAPhoto" tabindex="4">SNAPSHOT</button>
     </div>
-    <div class="canvas-container">
+    <!-- <div class="canvas-container">
       <canvas id="canvas-shapshot"></canvas>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -29,12 +40,12 @@ export default {
   name: 'Cam',
   data() {
     return {
+      cameraSwitch: false,
       // reference to dom element
       video: null,
       canvasSnapshot: null,
       // reference to WebRTC stream
       stream: null,
-
       // base64Image: null,
       imageLabels: null
     }
@@ -52,6 +63,13 @@ export default {
     //     console.log(result.data)
     //   })
     // },
+    triggerToggle () {
+      if (this.cameraSwitch) {
+        this.closeCamera()
+      } else {
+        this.openCamera()
+      }
+    },
     async openCamera () {
       if (hasGetUserMedia()) {
         // The constraints parameter is a MediaStreamConstraints object with two members: video and audio
@@ -148,36 +166,68 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-* {
+@import "@/styles/main.scss";
+
+h2, button, label {
   font-family: 'Shadows Into Light Two', cursive;
 }
 h2 {  
-  font-family: 'Rock Salt', cursive;
-}
-.container {
+  font-size: $font-size-h2;
+  line-height: $line-height-h2;
   text-align: center;
 }
-video {
+.switch {
+  text-align: center;
+  margin: $margin-thin;  
+}
+.cam-video-container video {
+  // <video> elements are inline elements, not block elements. -> margin: 0 auto; won't work in in-line
+  display: block;
   background: lightgray;
-  border: 2px black solid;
-  max-width: 100%;
-  max-height: 50%;
+  border: 1px black solid;
+  width: 80vw;
+  // *** npm run build won't complete if calc is used ***
+  // height: calc(width);
+  max-width: 768px;
+  max-height: 768px;
+  margin: 0 auto;
 }
 canvas {
-  border: 2px black solid;
+  border: 1px black solid;
   max-width: 100%;
 }
 .video-container, .canvas-container {
   margin-top: 2rem;
   margin-bottom: 1rem;
 }
-button {
-  margin: 0.5rem;
+.canvas-btn-container {
+  position: relative;
+  width: 80vw;
+  max-width: 768px;
+  margin: 16px auto;
+  height: 100px;
+  text-align: center;
 }
-button:hover {
-  cursor: pointer;
+#canvas-shapshot {
+  position: absolute;
+  left: 0px;
+  top: 14.75px;
+  width: 94px;
+  height: 70.5px;
+}
+button {
+  border-radius: 47px;
+  width: 94px;
+  height: 94px;
   background-color: #42b983;
   color: white;
 }
-
+button:hover, button:focus {
+  cursor: pointer;
+  background-color: #5ece9b;
+  color: black;
+}
+#camera-switch:focus {
+  border: 2px solid red;
+}
 </style>
