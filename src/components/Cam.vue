@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>OSWEGO SEARCH</h2>
+    <!-- <h2>OSWEGO SEARCH</h2> -->
     <!-- <button @click="callFirebaseFunctions">call firebase functions</button> -->
     <!-- Switch -->
     <div class="switch">
@@ -23,12 +23,12 @@
       <!-- <button @click="pauseVideo">PAUSE</button>
       <button @click="resumeVideo">RESUME</button> -->
       <!-- <button @click="closeCamera">CLOSE</button> -->
-      <button @click="takeAPhoto" tabindex="4">SNAPSHOT</button>
+      <button @click="takeAPhoto" tabindex="4"><i class="material-icons">photo_camera</i></button>
     </div>
     <!-- <div class="canvas-container">
       <canvas id="canvas-shapshot"></canvas>
     </div> -->
-
+      
   </div>
 </template>
 
@@ -165,11 +165,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+/* <style scoped> will impact the usage of Material Icons */
+
 @import "@/styles/main.scss";
 
 h2, button, label {
-  font-family: 'Shadows Into Light Two', cursive;
+  font-family: 'Shadows Into Light Two', sans-serif;
 }
 h2 {  
   font-size: $font-size-h2;
@@ -178,7 +180,7 @@ h2 {
 }
 .switch {
   text-align: center;
-  margin: $margin-thin;  
+  margin: $margin-regular;  
 }
 .cam-video-container video {
   // <video> elements are inline elements, not block elements. -> margin: 0 auto; won't work in in-line
@@ -211,16 +213,18 @@ canvas {
 #canvas-shapshot {
   position: absolute;
   left: 0px;
-  top: 14.75px;
-  width: 94px;
-  height: 70.5px;
+  width: 77px;    // 1.33    1
+  height: 58px;   // 1      0.75
 }
 button {
-  border-radius: 47px;
-  width: 94px;
-  height: 94px;
+  border-radius: 28px;
+  width: 56px;
+  height: 56px;
   background-color: #42b983;
   color: white;
+}
+.canvas-btn-container > button > i {
+  margin-top: 10%;
 }
 button:hover, button:focus {
   cursor: pointer;
@@ -230,4 +234,21 @@ button:hover, button:focus {
 #camera-switch:focus {
   border: 2px solid red;
 }
+
+@media screen and (min-width: 768px) {
+  button {
+    width: 94px;
+    height: 94px;
+    border-radius: 47px;
+  }
+  .canvas-btn-container > button > i {
+    font-size: 36px;
+  }
+  #canvas-shapshot {
+    top: 14.75px;
+    width: 94px;
+    height: 70.5px;
+  }
+}
+
 </style>
