@@ -18,7 +18,8 @@
     </div>
 
     <div class="canvas-btn-container">
-      <canvas id="canvas-shapshot" tabindex="5"></canvas>
+      <!-- (3) use ui to direct the page-->
+      <router-link :to="{ name: 'search-result', params: {keyword: this.mostLikelyLabel }}"><canvas id="canvas-shapshot" tabindex="5"></canvas></router-link>
       <!-- <button @click="openCamera">OPEN</button> -->
       <!-- <button @click="pauseVideo">PAUSE</button>
       <button @click="resumeVideo">RESUME</button> -->
@@ -33,7 +34,8 @@
 </template>
 
 <script>
-import functions from '@/firebase/init'
+// import functions from '@/firebase/init'
+import firebaseApp from '@/firebase/init'
 import axios from 'axios'
 
 export default {
@@ -47,7 +49,8 @@ export default {
       // reference to WebRTC stream
       stream: null,
       // base64Image: null,
-      imageLabels: null
+      imageLabels: null,
+      mostLikelyLabel: null
     }
   },
   mounted () {
@@ -107,8 +110,6 @@ export default {
       this.canvasSnapshot.getContext('2d').drawImage(this.video, 0, 0)
       // this.base64Image = this.canvasSnapshot.toDataURL()
       // console.log(this.base64Image)
-      // eslint-disable-next-line
-      console.log('in takeAPhoto()')
       let base64Image = this.canvasSnapshot.toDataURL().split(',')[1]
       // this.compareImages(base64Image)
       // let sessionUrl = 'https://automl.googleapis.com/v1beta1/projects/oswego-search/locations/us-central1/models/ICN4949278095472438711:predict'
@@ -130,7 +131,8 @@ export default {
       //   console.log(response)
       // })
 
-      // test
+      // eslint-disable-next-line
+      console.log('Waiting for response ...')
       axios.post('https://us-central1-oswego-search.cloudfunctions.net/getImageLabels', {
         "payload": {
           "image": {
@@ -138,8 +140,22 @@ export default {
           }
         }
       }).then(response => {
+        let item = { name: null, score: 0 }
+        // payload array
         // eslint-disable-next-line
-        console.log(response)
+        console.log(response.data[0].payload)
+        response.data[0].payload.forEach(element => {
+          // find the item with the largest score
+          if (item.name === null) {
+            item.name = element.displayName
+            item.score = element.classification.score
+          } 
+          if (element.classification.score > item.score) {
+            item.name = element.displayName
+            item.score = element.classification.score
+          }
+        })
+        this.mostLikelyLabel = item.name
       }).catch(error => {
         // eslint-disable-next-line
         console.log(error)
@@ -153,7 +169,7 @@ export default {
 
     },
     compareImages (base64Image) {
-      let getImageLabels = functions.httpsCallable('getImageLabels')
+      let getImageLabels = firebaseApp.functions().httpsCallable('getImageLabels')
       // async
       getImageLabels({ base64Image: base64Image }).then( result => {
         // result is whatever compareImages function return to us, which is the labels we want

@@ -1,9 +1,9 @@
 <template>
   <div>
     <nav>
-      <a href="/">OSWEGO SEARCH</a>
+      <router-link to="/">OSWEGO SEARCH</router-link>
       <ul>
-        <li><a href="/about">ABOUT</a></li>
+        <li><router-link to="/about">About</router-link></li>
       </ul>
     </nav>
   </div>

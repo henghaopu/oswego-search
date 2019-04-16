@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import SearchResult from './views/SearchResult.vue'
 
 Vue.use(Router)
 
@@ -10,6 +11,12 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    // (1) route setup: can type url and then load the componenet 
+    {
+      path: '/search-result/:keyword',
+      name: 'search-result',
+      component: SearchResult
     },
     {
       path: '/about',
