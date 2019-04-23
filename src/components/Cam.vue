@@ -4,7 +4,7 @@
     <!-- <button @click="callFirebaseFunctions">call firebase functions</button> -->
     <!-- Switch -->
     <div class="switch">
-      <label for="camera-switch" >
+      <label for="camera-switch">
         <!-- OFF -->
         <input type="checkbox" id="camera-switch" v-model="cameraSwitch" @click="triggerToggle">
         <span class="lever" tabindex="3" @keydown.enter="triggerToggle"></span>
@@ -186,7 +186,7 @@ export default {
 
 @import "@/styles/main.scss";
 
-h2, button, label {
+h2, button, .switch > label {
   font-family: 'Shadows Into Light Two', sans-serif;
 }
 h2 {  
@@ -264,6 +264,10 @@ button:hover, button:focus {
     top: 14.75px;
     width: 94px;
     height: 70.5px;
+  }
+  .switch > label {
+    font-size: 22px;
+    font-family: 'Shadows Into Light Two', sans-serif;
   }
 }
 

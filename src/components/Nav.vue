@@ -40,4 +40,15 @@ nav > ul > li > a {
   font-family: 'Shadows Into Light Two', sans-serif;
   padding: 15px;
 }
+
+@media screen and (min-width: 768px) {
+  nav {
+    height: 56px;
+  }
+  nav > a, nav > ul > li > a {
+    // padding: 20px;
+    padding: 17px;
+    font-size: 22px;
+  }
+}
 </style>

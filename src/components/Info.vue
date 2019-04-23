@@ -1,21 +1,35 @@
 <template>
   <div class="info">
-    <h2>Custom Info</h2>  
+    <!-- <h2>{{ searchInfo.name }}</h2>   -->
     <!-- <p>{{searchInfo}}</p> -->
-    <div class="img-container">
-      <img v-if="imageUrl" :src="imageUrl" :alt="searchInfo.name" width="200px">
+    <div class="grid">
+      
+      <figure class="img-container">
+        <img v-if="imageUrl" :src="imageUrl" :alt="searchInfo.name" width="200px">
+        <figcaption>{{ searchInfo.name }}</figcaption>
+      </figure>
+
+      <div v-if="searchInfo" class="description-container">
+        <p>{{ searchInfo.description }}</p>
+      </div>
+
     </div>
-    <div v-if="searchInfo" class="description-container">
-      <p>{{ searchInfo.description }}</p>
-    </div>
+
+    <Map :location="searchInfo.location"/>
+    
   </div>
 </template>
 
 <script>
 import firebaseApp from '@/firebase/init'
+import Map from '@/components/Map.vue'
+
 export default {
   name: 'info',
   props: ['keyword'],
+  components: {
+    Map
+  },
   data () {
     return {
       // searchInfoCollection: [],
@@ -64,9 +78,58 @@ export default {
 </script>
 
 <style lang="scss">
-.info > .img-container, 
-.info > .description-container {
+.grid {
+  background-color: #fffaf6;
+  // background-color: #fff4ea;
+  width: 80vw;
+  margin: 0 auto;
+}
+.description-container {
+  height: 40vh;
+  overflow-y: scroll;
+}
+
+.description-container > p {
+  text-align: left;
+  padding: 1rem;
+}
+.info > .grid > .img-container, 
+.info > .grid > .description-container {
   text-align: center;
   padding-top: 15px;
 }
+
+.img-container > img {
+  margin: 1rem;
+}
+.img-container > figcaption, .description-container > p {
+  font-family: 'Raleway', sans-serif;
+  padding: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .grid {
+    // border: 1px solid gray;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+  .img-container {
+    grid-column: 1 / 2;
+    align-self: center;
+  }
+  .description-container {
+    grid-column: 2 / 3;
+    // height: 300px;
+    height: 40vh;
+    overflow-y: scroll;
+  }
+  .img-container > figcaption {
+    font-size: 20px;
+  }
+  .description-container > p {
+    font-size: 18px;
+  }
+}
+
 </style>
