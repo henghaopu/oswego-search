@@ -29,7 +29,7 @@ exports.helloWorld = functions.https.onRequest((request, response) => {
   cors(request, response, () => {
     // *** Be aware! request.body will print {} which is misleading ***
     let base64Image = request.body.payload.image.imageBytes
-    response.send( 'HEHE' + base64Image)
+    response.send('HEHE' + base64Image)
   })
 })
 

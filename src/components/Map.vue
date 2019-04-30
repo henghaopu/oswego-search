@@ -27,6 +27,12 @@ export default {
         minZoom: 3,
         streetViewControl: false
       })
+      var myLatlng = new google.maps.LatLng(this.location._lat, this.location._long);
+      var marker = new google.maps.Marker({
+        position: myLatlng
+      })
+      // To add the marker to the map, call setMap();
+      marker.setMap(map)
     }
   }
 }

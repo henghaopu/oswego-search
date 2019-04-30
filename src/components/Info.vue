@@ -100,11 +100,14 @@ export default {
 }
 
 .img-container > img {
-  margin: 1rem;
+  margin: 1rem 1rem 0 1rem;
 }
 .img-container > figcaption, .description-container > p {
   font-family: 'Raleway', sans-serif;
   padding: 1rem;
+}
+.description-container > p {
+  line-height: 1.6rem;
 }
 
 @media screen and (min-width: 768px) {
@@ -129,6 +132,7 @@ export default {
   }
   .description-container > p {
     font-size: 18px;
+    line-height: 1.8rem;
   }
 }
 
